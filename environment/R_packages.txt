@@ -1,0 +1,12 @@
+# R 4.5.2
+TwoSampleMR 0.7.4
+MVMR 0.4.4
+MRPRESSO 1.0
+MendelianRandomization 0.10.0
+mr.raps 0.4.3
+ieugwasr 1.1.0
+coloc 5.2.3
+susieR 0.14.2
+data.table 1.18.4
+# also used (versions not pinned): ggplot2, ggrepel, patchwork, cowplot, ggnewscale,
+# igraph, ggraph, tidygraph, dplyr, tidyr, stringr, readr

@@ -1,0 +1,11 @@
+receptor = FADS1.pdbqt
+ligand = C1_135539077.pdbqt
+center_x = -1.228518
+center_y = 8.457491
+center_z = -13.414805
+size_x = 21
+size_y = 21
+size_z = 21
+out = FADS1_C1_135539077_docked.pdb
+exhaustiveness = 32
+

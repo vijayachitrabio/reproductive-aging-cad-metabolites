@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the associated article."
+type: software
+title: "Shared genetic and metabolic architecture of reproductive aging, coronary artery disease, and parental lifespan: a Mendelian randomization study"
+version: "v1.0"
+authors:
+  - family-names: Modhukur
+    given-names: Vijayachitra
+    affiliation: "Department of Obstetrics and Gynecology, Institute of Clinical Medicine, University of Tartu, Estonia"
+repository-code: "https://github.com/vijayachitrabio/reproductive-aging-cad-metabolites"
+license: MIT
+keywords:
+  - age at natural menopause
+  - coronary artery disease
+  - parental lifespan
+  - Mendelian randomization
+  - metabolomics
+  - FADS1
+  - colocalization
+  - molecular dynamics
+
+preferred-citation:
+  type: article
+  title: "Shared genetic and metabolic architecture of reproductive aging, coronary artery disease, and parental lifespan: a Mendelian randomization study"
+  authors:
+    - family-names: Modhukur
+      given-names: Vijayachitra
+    - family-names: Khatun
+      given-names: Masuma
+    - family-names: Patel
+      given-names: Naisarg
+    - family-names: Destouni
+      given-names: Aspasia
+    - family-names: Lingasamy
+      given-names: Prakash
+    - family-names: Gromiha
+      given-names: M. Michael
+    - family-names: Salumets
+      given-names: Andres
+  journal: "BMC Women's Health"
+  year: 2026

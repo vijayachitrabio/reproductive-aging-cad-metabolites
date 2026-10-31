@@ -1,0 +1,17 @@
+Input file for GB binding free energy calculation + per-residue decomposition.
+Trajectory: nstxout-compressed=5000 steps x dt=2fs = 10ps/frame, ~10000 frames
+over the full 100ns. Only the last 20ns (post-equilibration window) is used,
+not the full trajectory -- frames 8001-10000
+= t=80-100ns, sampled every 100ps (interval=10 frames) -> 200 frames analyzed.
+&general
+  startframe=8001, endframe=10000, interval=10,
+  verbose=2, keep_files=0,
+  PBRadii=2,
+/
+&gb
+  igb=5, saltcon=0.150,
+/
+&decomp
+  idecomp=2, dec_verbose=0,
+  print_res="within 6",
+/

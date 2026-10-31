@@ -1,0 +1,12 @@
+# data and outputs are not redistributed
+data/
+results/
+external/
+logs/
+*.rds
+*.RData
+.Rhistory
+.Rproj.user/
+.DS_Store
+__pycache__/
+*.pyc

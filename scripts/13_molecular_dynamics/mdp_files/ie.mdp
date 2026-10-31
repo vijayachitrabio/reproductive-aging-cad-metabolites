@@ -1,0 +1,16 @@
+; Rerun mdp for non-bonded interaction-energy decomposition (Protein vs MOL).
+; Nonbonded settings copied from the actual C1_md_0_100 production tpr (gmx dump)
+; to keep energy evaluation methodologically consistent with the real simulation.
+integrator      = md
+dt              = 0.002
+nsteps          = 0
+nstlist         = 10
+cutoff-scheme   = Verlet
+pbc             = xyz
+coulombtype     = PME
+rcoulomb        = 1.2
+vdw-modifier    = Force-switch
+rvdw-switch     = 1.0
+rvdw            = 1.2
+rlist           = 1.2
+energygrps      = Protein MOL

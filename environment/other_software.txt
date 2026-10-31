@@ -1,0 +1,17 @@
+# Genetic analyses
+LDSC (original Python implementation, https://github.com/bulik/ldsc)
+S-PrediXcan (MetaXcan framework) with GTEx v8 MASHR models
+PLINK 1.9 (LD clumping and SuSiE LD matrices; 1000 Genomes Phase 3 EUR reference)
+AlphaGenome Python client (API key required)
+
+# Docking
+AutoSite 1.0.0 (pocket detection)
+ADFR suite prepare_receptor4 (receptor PDBQT)
+Meeko 0.7.1 (mk_prepare_ligand.py, ligand PDBQT)
+AutoDock Vina 1.2.5
+
+# Molecular dynamics
+GROMACS 2026.3
+CHARMM36 force field (TIP3P water)
+ACPYPE 2026.9.4 (GAFF2, AM1-BCC charges)
+gmx_MMPBSA 1.7.0 (MM-GBSA)
