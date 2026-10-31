@@ -1,9 +1,12 @@
 #!/bin/bash
+# System setup for apo FADS1 and the FADS1-D5D-IN-326 complex: CHARMM36 (March 2019 GROMACS port), TIP3P water,
+# cubic box with a 1.2-nm solute-to-edge distance (protein diameter 11.55 nm, box edge 13.95 nm), Cl- neutralization.
+# Force field and box margin are those recorded in the topologies and coordinate files of the simulated systems.
 MD_ROOT="${MD_ROOT:-$HOME}"   # parent directory of the per-system MD run folders
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 set -e
 source ~/miniforge3/bin/activate md
-FF=charmm36-feb2026_cgenff-5.0.ff
+FF=charmm36-mar2019.ff
 ROOT=${MD_ROOT}/fads1_md
 
 # ============================================================
@@ -15,7 +18,7 @@ cp "$ROOT/apo/FADS1.pdb" .
 rm -rf "./$FF"; cp -r "$ROOT/$FF" "./$FF"
 
 gmx pdb2gmx -f FADS1.pdb -o FADS1_processed.gro -water tip3p -ff "${FF%.ff}" -ignh
-gmx editconf -f FADS1_processed.gro -o newbox.gro -c -d 1.0 -bt cubic
+gmx editconf -f FADS1_processed.gro -o newbox.gro -c -d 1.2 -bt cubic
 gmx solvate -cp newbox.gro -cs spc216.gro -p topol.top -o solv.gro
 gmx grompp -f "$ROOT/mdp_files/ions.mdp" -c solv.gro -p topol.top -o ions.tpr -maxwarn 1
 echo SOL | gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
@@ -52,15 +55,15 @@ python3 - << 'PYEOF'
 with open("topol.top") as f:
     content = f.read()
 content = content.replace(
-    '#include "./charmm36-feb2026_cgenff-5.0.ff/forcefield.itp"\n',
-    '#include "./charmm36-feb2026_cgenff-5.0.ff/forcefield.itp"\n\n; Include ligand parameters\n#include "T_LIG.acpype/T_LIG_GMX.itp"\n'
+    '#include "./charmm36-mar2019.ff/forcefield.itp"\n',
+    '#include "./charmm36-mar2019.ff/forcefield.itp"\n\n; Include ligand parameters\n#include "T_LIG.acpype/T_LIG_GMX.itp"\n'
 )
 content = content.rstrip() + "\nT_LIG               1\n"
 with open("topol.top", "w") as f:
     f.write(content)
 PYEOF
 
-gmx editconf -f complex.gro -o newbox.gro -c -d 1.0 -bt cubic
+gmx editconf -f complex.gro -o newbox.gro -c -d 1.2 -bt cubic
 gmx solvate -cp newbox.gro -cs spc216.gro -p topol.top -o solv.gro
 gmx grompp -f "$ROOT/mdp_files/ions.mdp" -c solv.gro -p topol.top -o ions.tpr -maxwarn 1
 echo SOL | gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
