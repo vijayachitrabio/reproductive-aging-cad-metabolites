@@ -37,5 +37,5 @@ p <- ggplot(d, aes(x = rg, y = trait2, color = outcome, alpha = sig)) +
   theme(plot.title = element_text(face = "bold", size = 11), legend.position = "bottom")
 
 out_file <- file.path(out_dir, "ldsc_rg_anm_cad_metabolites.png")
-ggsave(out_file, p, width = 7.5, height = 6, dpi = 320)
+ggsave(out_file, p, width = 7.5, height = 6, dpi = 600)
 message("Wrote ", out_file)

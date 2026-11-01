@@ -54,7 +54,7 @@ scripts/
   11_evidence_integration/        evidence integration and tiers
   12_docking/                     AutoSite pocket, Vina configurations, receptor and ligand inputs
   13_molecular_dynamics/          GROMACS parameter files, system setup, post-MD analysis, MM-GBSA
-  14_figures/                     Figures 2–5 and Supplementary Figures S1–S5
+  14_figures/                     Figures 2–5 and 7, Supplementary Figures S1–S7
 ```
 
 ## Configuration
@@ -97,8 +97,9 @@ Run all scripts from the repository root. Paths are set with environment variabl
 | Docking | `12_docking/` | Figure 6, Table 5, Table S16B |
 | Molecular dynamics | `13_molecular_dynamics/` | Figure 7, Table 5, Tables S16A, S17, S18, Figures S6–S7 |
 | Figures | `14_figures/main_figures_2_and_5.R`, `figure3_mvmr.R`, `figure4_ldsc.R`, `supplementary_figures_S1_S5.R` | Figures 2–5, S1–S5 |
+| MD figures | `14_figures/md_figures_7_S6_S7.py` (script by Naisarg Patel) | Figure 7, Figures S6–S7 |
 
-Figure 1 (study design) was drawn in BioRender. Figures 6, 7, S6 and S7 were drawn from the docking poses and GROMACS outputs.
+Figure 1 (study design) was drawn in BioRender. Figure 6 was drawn from the docking poses. Figures 7, S6 and S7 are plotted from the GROMACS outputs by `14_figures/md_figures_7_S6_S7.py`, written by Naisarg Patel.
 
 ## Docking
 

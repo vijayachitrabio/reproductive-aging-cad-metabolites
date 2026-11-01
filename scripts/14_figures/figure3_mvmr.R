@@ -41,5 +41,5 @@ p <- ggplot(res, aes(x = beta, y = exposure, color = sig)) +
   )
 
 out_file <- file.path(out_dir, "metabolic_axis_mvmr_forest.png")
-ggsave(out_file, p, width = 7.2, height = 4.2, dpi = 320)
+ggsave(out_file, p, width = 7.2, height = 4.2, dpi = 600)
 message("Wrote ", out_file)
