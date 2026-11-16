@@ -111,7 +111,7 @@ System labels: apo FADS1; C1 = FADS1–Luminespib; C2 = FADS1–NU7441; T = FADS
 
 - `mdp_files/`: `ions.mdp`, `minim.mdp`, `nvt.mdp`, `npt.mdp`, `md.mdp` (10 ns), `md_50ns.mdp`, `md_100ns.mdp`, `ie.mdp` (interaction-energy rerun) and `mmpbsa.in` (MM-GBSA, frames 8,001–10,000 every 10 frames, igb = 5, 0.150 M salt). The run scripts expect `mdp_files/` under `${MD_ROOT}/fads1_md_c1/` (C1, C2) and `${MD_ROOT}/fads1_md/` (apo, T), and `ie.mdp` and `mmpbsa.in` in each system folder.
 - `setup/`: apo and T system build, equilibration and production (`setup_apo_and_d5d_in_326.sh`), extension of the apo run from 10 to 100 ns (`extend_apo_to_100ns.sbatch`), C1 equilibration and production (`run_luminespib.sbatch`), C2 complex build, equilibration, 50-ns production and extension to 100 ns (`nu7441_*.sbatch`, `merge_gro.py`, `check_complex.py`).
-- `analysis/`: trajectory analysis (RMSD, RMSF, radius of gyration, hydrogen bonds, SASA, interaction energy, PCA) for C1 (`analysis_luminespib.sh`), T (`analysis_d5d_in_326.sh`) and apo and C2 (`postmd_analysis.sbatch`), and MM-GBSA (`run_mmgbsa.sh` and wrappers).
+- `analysis/`: trajectory analysis (RMSD, RMSF, radius of gyration, hydrogen bonds, SASA, interaction energy, PCA) for C1 (`analysis_luminespib.sh`), T (`analysis_d5d_in_326.sh`) and apo and C2 (`postmd_analysis.sbatch`), and MM-GBSA (`run_mmgbsa.sh` and wrappers). `calc_rmsd_last20ns.py` gives the mean and SD of protein-backbone and ligand RMSD over the final 20 ns (80–100 ns, the MM-GBSA window) from the RMSD `.xvg` files, as reported in Table 5.
 
 SLURM directives reflect the University of Tartu HPC cluster and should be adapted to other systems.
 
