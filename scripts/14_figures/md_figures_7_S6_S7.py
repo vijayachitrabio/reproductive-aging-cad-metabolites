@@ -1,19 +1,17 @@
 # Script by Naisarg Patel (contribution to this study).
-# Plots the molecular-dynamics figures: Figure 7 (output Fig1_RMSD_RMSF_Rg_SASA.png),
-# Supplementary Figure S6 (Fig2_LigandRMSD_HBonds.png) and Supplementary Figure S7 (Fig3_PCA_FEL.png).
+# Plots the molecular-dynamics figures: Figure 7 (output Fig7_RMSD_RMSF_Rg_SASA.png),
+# Supplementary Figure S6 (FigS6_LigandRMSD_HBonds.png) and Supplementary Figure S7 (FigS7_PCA_FEL.png).
 # Inputs are the GROMACS .xvg files written by 13_molecular_dynamics/analysis: put the apo, c1 and c2
-# files in xvg_files/ and the t (D5D-IN-326) files in T/, next to this script. The last block
-# (Fig4_Summary_Tables.png) also needs fig_v2/Average_Metrics_v2.csv and MMGBSA_Results_v2.csv.
+# files in xvg_files/ and the t (D5D-IN-326) files in T/, next to this script.
 """
-plot_mds_figures_v2.py  –  FADS1 MD figures, v2: adds D5D-IN-326 (T/)
+md_figures_7_S6_S7.py  –  FADS1 MD figures for the manuscript
 
-Writes to fig_v2/. Same plotting as plot_mds_figures.py; NU7441 moves to
-orange so D5D-IN-326 can take red.
+Writes to fig_v2/.
 
-Figure 1 : 2x2  – Protein RMSD, RMSF, Rg, SASA      (single shared legend)
-Figure 2 : 1x2  – Ligand RMSD, Protein-ligand H-bonds (single shared legend)
-Figure 3 : 2x4  – PCA projections (top row) + Free Energy Landscapes (bottom)
-Figure 4 : 2x1  – fig_v2/Average_Metrics_v2.csv and MMGBSA_Results_v2.csv rendered as tables
+Fig7  : 2x2  – Protein RMSD, RMSF, Rg, SASA            (main Figure 7)
+FigS6 : 1x2  – Ligand RMSD, Protein-ligand H-bonds     (Supplementary Figure S6)
+FigS7 : 2x4  – PCA projections (top row) + Free Energy Landscapes (bottom)
+                                                       (Supplementary Figure S7)
 """
 
 import numpy as np
@@ -115,7 +113,7 @@ plt.rcParams.update({
 })
 
 # ═════════════════════════════════════════════════════════════════════════════
-# Figure 1 – RMSD / RMSF / Rg / SASA
+# Figure 7 – RMSD / RMSF / Rg / SASA
 # ═════════════════════════════════════════════════════════════════════════════
 fig1, axes1 = plt.subplots(2, 2, figsize=(11, 8))
 ax_rmsd, ax_rmsf, ax_rg, ax_sasa = axes1.flat
@@ -163,12 +161,12 @@ fig1.legend(handles=legend_handles(SYSTEMS), loc="lower center",
             ncol=len(SYSTEMS), fontsize=10, frameon=False,
             bbox_to_anchor=(0.5, 0.015))
 
-out1 = OUT_DIR / "Fig1_RMSD_RMSF_Rg_SASA.png"
+out1 = OUT_DIR / "Fig7_RMSD_RMSF_Rg_SASA.png"
 fig1.savefig(out1, dpi=600, bbox_inches="tight")
 print(f"Saved: {out1}")
 
 # ═════════════════════════════════════════════════════════════════════════════
-# Figure 2 – Ligand RMSD + protein–ligand hydrogen bonds
+# Figure S6 – Ligand RMSD + protein–ligand hydrogen bonds
 # ═════════════════════════════════════════════════════════════════════════════
 fig2, (ax_lig, ax_hb) = plt.subplots(1, 2, figsize=(11, 4.2))
 
@@ -202,12 +200,12 @@ fig2.legend(handles=legend_handles(LIG_SYSTEMS), loc="lower center",
             ncol=len(LIG_SYSTEMS), fontsize=10, frameon=False,
             bbox_to_anchor=(0.5, 0.01))
 
-out2 = OUT_DIR / "Fig2_LigandRMSD_HBonds.png"
+out2 = OUT_DIR / "FigS6_LigandRMSD_HBonds.png"
 fig2.savefig(out2, dpi=600, bbox_inches="tight")
 print(f"Saved: {out2}")
 
 # ═════════════════════════════════════════════════════════════════════════════
-# Figure 3 – PCA projections (top) and free energy landscapes (bottom)
+# Figure S7 – PCA projections (top) and free energy landscapes (bottom)
 # ═════════════════════════════════════════════════════════════════════════════
 fig3, axes3 = plt.subplots(2, 4, figsize=(20, 8.6))
 
@@ -256,103 +254,6 @@ cb_bot  = fig3.colorbar(cf, cax=cax_bot,
 cb_bot.set_label("ΔG (kJ/mol)", fontsize=9)
 cb_bot.ax.tick_params(labelsize=8)
 
-out3 = OUT_DIR / "Fig3_PCA_FEL.png"
+out3 = OUT_DIR / "FigS7_PCA_FEL.png"
 fig3.savefig(out3, dpi=600, bbox_inches="tight")
 print(f"Saved: {out3}")
-
-
-# ═════════════════════════════════════════════════════════════════════════════
-# Figure 4 – the two result CSVs rendered as tables
-# ═════════════════════════════════════════════════════════════════════════════
-import csv
-
-HEADER_BG = "#3c4657"
-STRIPE_BG = "#f2f4f7"
-TOTAL_BG  = "#dde5f0"
-NA_DASH   = "\u2014"          # em dash for missing values
-SYS_COLOR = {l: c for _, l, c in SYSTEMS}
-
-
-def read_csv(path):
-    with open(path, encoding="utf-8") as fh:
-        rows = [r for r in csv.reader(fh) if r and any(f.strip() for f in r)]
-    return rows[0], rows[1:]
-
-
-def fmt_num(v, nd=3):
-    """Trim the long floats in Average_Metrics_v2.csv to a readable precision."""
-    v = v.strip()
-    if v in ("", "N/A", "NA", "nan"):
-        return NA_DASH
-    try:
-        return f"{float(v):.{nd}f}"
-    except ValueError:
-        return v
-
-
-def col_widths(header, body, first_col_pad=3):
-    """Column widths proportional to the widest string in each column."""
-    w = []
-    for c, h in enumerate(header):
-        longest = max([len(h)] + [len(r[c]) for r in body])
-        w.append(longest + (first_col_pad if c == 0 else 2))
-    total = sum(w)
-    return [x / total for x in w]
-
-
-def draw_table(ax, header, body, title, letter, bold_rows=(),
-               color_first_col=False):
-    ax.axis("off")
-    panel_title(ax, letter, title)
-
-    tbl = ax.table(cellText=body, colLabels=header, cellLoc="center",
-                   colWidths=col_widths(header, body),
-                   bbox=[0, 0, 1, 1])          # fill the axes exactly
-    tbl.auto_set_font_size(False)
-    tbl.set_fontsize(9)
-
-    for (r, c), cell in tbl.get_celld().items():
-        cell.set_edgecolor("white")
-        cell.set_linewidth(1.2)
-        if r == 0:                                   # header row
-            cell.set_facecolor(HEADER_BG)
-            cell.set_text_props(color="white", fontweight="bold")
-            continue
-        cell.set_facecolor(STRIPE_BG if r % 2 else "white")
-        if c == 0:                                   # row-label column
-            cell.set_text_props(ha="left", fontweight="bold")
-            cell.PAD = 0.03
-            if color_first_col:
-                cell.set_text_props(color=SYS_COLOR.get(body[r - 1][0], "black"),
-                                    ha="left", fontweight="bold")
-        if r - 1 in bold_rows:                       # highlighted row (TOTAL)
-            cell.set_facecolor(TOTAL_BG)
-            cell.set_text_props(fontweight="bold")
-    return tbl
-
-
-# ── Panel A – average structural metrics ─────────────────────────────────────
-hdr_a, rows_a = read_csv(OUT_DIR / "Average_Metrics_v2.csv")
-body_a = [[r[0]] + [fmt_num(v, 2 if "SASA" in hdr_a[i] else 3)
-                    for i, v in enumerate(r[1:], start=1)] for r in rows_a]
-
-# ── Panel B – MM-GBSA binding free energy ────────────────────────────────────
-hdr_b, rows_b = read_csv(OUT_DIR / "MMGBSA_Results_v2.csv")
-body_b = [[r[0]] + [v.strip().replace("+/-", "\u00b1") for v in r[1:]]
-          for r in rows_b]
-total_idx = tuple(i for i, r in enumerate(rows_b) if r[0].strip().upper() == "TOTAL")
-
-# height of each panel tracks its row count so the cells stay evenly sized
-rows_A, rows_B = len(body_a) + 1, len(body_b) + 1
-ROW_IN = 0.42
-fig4 = plt.figure(figsize=(12, (rows_A + rows_B) * ROW_IN + 1.3))
-gs = fig4.add_gridspec(2, 1, height_ratios=[rows_A, rows_B], hspace=0.30)
-
-draw_table(fig4.add_subplot(gs[0]), hdr_a, body_a,
-           "Average structural metrics (100 ns)", "A", color_first_col=True)
-draw_table(fig4.add_subplot(gs[1]), hdr_b, body_b,
-           "MM-GBSA binding free energy", "B", bold_rows=total_idx)
-
-out4 = OUT_DIR / "Fig4_Summary_Tables.png"
-fig4.savefig(out4, dpi=600, bbox_inches="tight", facecolor="white")
-print(f"Saved: {out4}")
